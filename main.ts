@@ -1,6 +1,6 @@
 import { fstat, readFileSync, writeFileSync } from "fs";
-import { runAdd } from "./add";
-import { PackageExperimentResult } from "./type";
+import { runAdd } from "./src/add";
+import { PackageExperimentResult } from "./src/type";
 
 const COUNT_OF_EXPERIMENTS = 3;
 
