@@ -5,6 +5,7 @@ import { configure, getLogger } from "log4js";
 import dayjs from "dayjs";
 
 const COUNT_OF_EXPERIMENTS = 3;
+const RESULT_PER_FILE = 5000;
 const logger = getLogger();
 
 const experiment = async (name: string): Promise<PackageExperimentResult> => {
@@ -30,11 +31,16 @@ const experiment = async (name: string): Promise<PackageExperimentResult> => {
 
 const main = async () => {
   const names = JSON.parse(readFileSync(process.argv[2]).toString()) as string[];
-  let result = [];
-  for (const name of names) {
-    result.push(await experiment(name));
+  for(let i = 0;i < names.length / RESULT_PER_FILE; i++){
+    logger.info(`start ${i}/${names.length / RESULT_PER_FILE}`)
+    const start = i * RESULT_PER_FILE;
+    const end = (i + 1) * RESULT_PER_FILE > names.length ? names.length : start + RESULT_PER_FILE;
+    let result = [];
+    for(let j = start;j < end;j++){
+      result.push(await experiment(names[j]));
+    }
+    writeFileSync(`result/${i}.json`, JSON.stringify(result));
   }
-  writeFileSync("result.json", JSON.stringify(result));
 };
 
 configure({
