@@ -31,9 +31,11 @@ const diff = (v1: string, v2: string, log: Log[]) => {
   const one = log.filter((v) => v.content.startsWith(v1))[0];
   const two = log.filter((v) => v.content.startsWith(v2))[0];
   if (two.date.isAfter(one.date)) {
-    console.log(two.date.diff(one.date, "second"));
+    console.log(`${two.date.diff(one.date, "millisecond") / 1000} s`);
   } else {
-    console.log(two.date.add(1, "day").diff(one.date, "second"));
+    console.log(
+      `${two.date.add(1, "day").diff(one.date, "millisecond") / 1000}`
+    );
   }
 };
 
