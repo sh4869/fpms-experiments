@@ -31,15 +31,26 @@ const experiment = async (name: string): Promise<PackageExperimentResult> => {
 
 const main = async () => {
   const names = JSON.parse(readFileSync(process.argv[2]).toString()) as string[];
-  for(let i = 0;i < names.length / RESULT_PER_FILE; i++){
-    logger.info(`start ${i}/${names.length / RESULT_PER_FILE}`)
+  for (let i = 0; i < names.length / RESULT_PER_FILE; i++) {
+    logger.info(`start ${i}/${names.length / RESULT_PER_FILE}`);
     const start = i * RESULT_PER_FILE;
     const end = (i + 1) * RESULT_PER_FILE > names.length ? names.length : start + RESULT_PER_FILE;
     let result = [];
-    for(let j = start;j < end;j++){
+    for (let j = start; j < end; j++) {
       result.push(await experiment(names[j]));
     }
-    writeFileSync(`result/${i}.json`, JSON.stringify(result));
+    writeFileSync(
+      `result/result.csv`,
+      result
+        .filter((z) => z.yarnresult.length > 0)
+        .map(
+          (v) =>
+            `${v.name},${v.yarnresult[0].version},${v.yarnresult[0].depscount},${v.yarnresult
+              .map((v) => v.mill)
+              .join(",")},${v.fpmsresult.map((v) => v.mill).join(",")}`
+        )
+        .join("\n")
+    );
   }
 };
 
