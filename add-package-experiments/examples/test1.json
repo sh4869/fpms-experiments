@@ -1,0 +1,10 @@
+{
+  "name": "react_copy",
+  "version": "1.0.0",
+  "deps": {
+    "loose-envify": "^1.1.0",
+    "object-assign": "^4.1.1"
+  },
+  "id": 0,
+  "shasum": ""
+}

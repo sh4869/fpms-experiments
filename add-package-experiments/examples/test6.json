@@ -1,0 +1,10 @@
+{
+  "name": "this_is_original_package_2",
+  "version": "1.0.0",
+  "deps": {
+    "underscore": "*",
+    "axios": "*"
+  }, 
+  "id": 0,
+  "shasum": ""
+}
