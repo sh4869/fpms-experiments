@@ -18,8 +18,13 @@ export const runAdd = async (command: "fpms" | "yarn", name: string): Promise<Re
 
 const execAddCommand = async (command: string, name: string, dir: string): Promise<ProcessResult> => {
   const start = process.hrtime.bigint();
-  await promisify(exec)(`${command} add ${name}`, { cwd: dir });
+  const result = await promisify(exec)(`${command} add ${name} --verbose`, {
+    cwd: dir,
+    env: { ...process.env, DEBUG: "*" },
+  });
   const end = process.hrtime.bigint();
+  console.log(result.stdout);
+  console.log("----------------------------------------------");
   const file = readFileSync(`${dir}${sep}yarn.lock`).toString();
   return { mill: Number(end - start) / 1000000, yarnlock: parse(file).object as LockFileObject };
 };

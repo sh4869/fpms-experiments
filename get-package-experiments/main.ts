@@ -4,7 +4,7 @@ import { PackageExperimentResult } from "./src/type";
 import { configure, getLogger } from "log4js";
 import dayjs from "dayjs";
 
-const COUNT_OF_EXPERIMENTS = 3;
+const COUNT_OF_EXPERIMENTS = 10;
 const RESULT_PER_FILE = 5000;
 const logger = getLogger();
 
@@ -41,15 +41,16 @@ const main = async () => {
     }
     writeFileSync(
       `result/result.csv`,
-      result
-        .filter((z) => z.yarnresult.length > 0)
-        .map(
-          (v) =>
-            `${v.name},${v.yarnresult[0].version},${v.yarnresult[0].depscount},${v.yarnresult
-              .map((v) => v.mill)
-              .join(",")},${v.fpmsresult.map((v) => v.mill).join(",")}`
-        )
-        .join("\n")
+      "package,version,depcount,yarn1,yarn2,yarn3,yarn4,yarn5,yarn6,yarn7,yarn8,yarn9,yarn10,fpms1,fpms2,fpms3,fpms4,fpms5,fpms6,fpsm7,fpms8,fpms9,fpms10\n" +
+        result
+          .filter((z) => z.yarnresult.length > 0)
+          .map(
+            (v) =>
+              `${v.name},${v.yarnresult[0].version},${v.yarnresult[0].depscount},${v.yarnresult
+                .map((v) => v.mill)
+                .join(",")},${v.fpmsresult.map((v) => v.mill).join(",")}`
+          )
+          .join("\n")
     );
   }
 };
